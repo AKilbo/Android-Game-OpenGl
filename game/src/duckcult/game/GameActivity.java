@@ -16,7 +16,7 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.main);
+        setContentView(new MainGamePanel(this));
         Log.d(TAG, "View Added");
     }
     
