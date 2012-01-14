@@ -98,7 +98,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 			droid.getSpeed().flipXDirection();
 		}
 		if(droid.getSpeed().getxDirection() == Speed.DIRECTION_LEFT 
-				&& droid.getX() +droid.getBitmap().getWidth()/2 <=0) {
+				&& droid.getX() -droid.getBitmap().getWidth()/2 <=0) {
 			droid.getSpeed().flipXDirection();
 		}
 		if(droid.getSpeed().getyDirection() == Speed.DIRECTION_DOWN 
@@ -106,7 +106,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 			droid.getSpeed().flipYDirection();
 		}
 		if(droid.getSpeed().getyDirection() == Speed.DIRECTION_UP 
-				&& droid.getY() +droid.getBitmap().getHeight()/2 <= 0) {
+				&& droid.getY() -droid.getBitmap().getHeight()/2 <= 0) {
 			droid.getSpeed().flipYDirection();
 		}
 		

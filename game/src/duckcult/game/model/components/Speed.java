@@ -1,5 +1,7 @@
 package duckcult.game.model.components;
 
+import duckcult.game.FPSConstraints;
+
 /**
  * A general component used to represent entities capable of having a speed
  * this is based partially on code found here: http://www.javacodegeeks.com/2011/07/android-game-development-moving-images.html
@@ -30,12 +32,12 @@ public class Speed {
 	/**
 	 * Non-Default Constructor
 	 * sets the x and y velocities
-	 * @param xVelocity	The velocity in the X direction
-	 * @param yVelocity	The velocity in the y direction
+	 * @param xVelocity	The velocity in the X direction in pixels/sec
+	 * @param yVelocity	The velocity in the y direction in pixels/sec
 	 */
 	public Speed(float xVelocity, float yVelocity) {
-		this.setXv(xVelocity);
-		this.setYv(yVelocity);
+		this.setXv(FPSConstraints.PStoPU(xVelocity));
+		this.setYv(FPSConstraints.PStoPU(yVelocity));
 	}
 
 	public float getXv() {

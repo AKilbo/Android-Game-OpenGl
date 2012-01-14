@@ -21,7 +21,7 @@ public class Droid {
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
-		this.speed = new Speed();
+		this.speed = new Speed(40,40);
 	}
 	
 	public Bitmap getBitmap() {
