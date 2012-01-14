@@ -1,5 +1,6 @@
 package duckcult.game;
 
+import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -28,9 +29,26 @@ public class MainThread extends Thread {
 	}
 	
 	public void run(){
+		Canvas canvas;
 		long tickCount = 0L;
 		Log.d(TAG, "Starting game loop");
 		while(running){
+			canvas = null;
+			try {
+				//try locking the canvas for exclusive pixel editing on the surface
+				canvas = this.surfaceHolder.lockCanvas();
+				synchronized (surfaceHolder) {
+					//update game state
+					//draws the canvas on the panel
+					this.gamePanel.onDraw(canvas);
+				}
+			}
+			finally {
+				//in case of an exception the surface is not left in an inconsistent state
+				if(canvas != null) {
+					surfaceHolder.unlockCanvasAndPost(canvas);
+				}
+			}
 			tickCount++;
 			//update game state
 			//render state of the screen
