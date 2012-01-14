@@ -1,9 +1,11 @@
 package duckcult.game;
 
+import duckcult.game.model.Droid;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -18,11 +20,13 @@ public class MainGamePanel extends SurfaceView implements Callback {
 
 	private static final String TAG = MainGamePanel.class.getSimpleName();
 	private MainThread thread;
+	private Droid droid;
 	
 	//Constructor
 	public MainGamePanel(Context context) {
 		super(context);
 		getHolder().addCallback(this);
+		droid = new Droid(BitmapFactory.decodeResource(getResources(), R.drawable.android),50,50);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 	}
@@ -57,6 +61,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction() == MotionEvent.ACTION_DOWN) {
+			droid.handleActionDown((int)event.getX(),(int)event.getY());
 			if(event.getY() > getHeight() -50) {
 				thread.setRunning(false);
 				((Activity)getContext()).finish();
@@ -65,12 +70,26 @@ public class MainGamePanel extends SurfaceView implements Callback {
 				Log.d(TAG, "Coords: x="+event.getX() +",y="+event.getY());
 			}
 		}
-		return super.onTouchEvent(event);
+		if(event.getAction() == MotionEvent.ACTION_MOVE) {
+			//the gestures
+			if(droid.isTouched()) {
+				droid.setX((int)event.getX());
+				droid.setY((int)event.getY());
+			}
+		}
+		if(event.getAction() == MotionEvent.ACTION_UP) {
+			if(droid.isTouched()) {
+				droid.setTouched(false);
+			}
+		}
+		return true;
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-		canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.android), 10, 10 ,null);
+		canvas.drawColor(Color.BLACK);
+		droid.draw(canvas);
+		//canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.android), 10, 10 ,null);
 	}
 
 }
