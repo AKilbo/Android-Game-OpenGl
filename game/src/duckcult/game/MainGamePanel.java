@@ -1,6 +1,7 @@
 package duckcult.game;
 
 import duckcult.game.model.Droid;
+import duckcult.game.model.components.Speed;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -85,11 +86,31 @@ public class MainGamePanel extends SurfaceView implements Callback {
 		return true;
 	}
 	
-	@Override
-	protected void onDraw(Canvas canvas) {
+	protected void render(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		droid.draw(canvas);
 		//canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.android), 10, 10 ,null);
+	}
+
+	public void update() {
+		if(droid.getSpeed().getxDirection() == Speed.DIRECTION_RIGHT 
+				&& droid.getX() +droid.getBitmap().getWidth()/2 >= getWidth()) {
+			droid.getSpeed().flipXDirection();
+		}
+		if(droid.getSpeed().getxDirection() == Speed.DIRECTION_LEFT 
+				&& droid.getX() +droid.getBitmap().getWidth()/2 <=0) {
+			droid.getSpeed().flipXDirection();
+		}
+		if(droid.getSpeed().getyDirection() == Speed.DIRECTION_DOWN 
+				&& droid.getY() +droid.getBitmap().getHeight()/2 >= getHeight()) {
+			droid.getSpeed().flipYDirection();
+		}
+		if(droid.getSpeed().getyDirection() == Speed.DIRECTION_UP 
+				&& droid.getY() +droid.getBitmap().getHeight()/2 <= 0) {
+			droid.getSpeed().flipYDirection();
+		}
+		
+		droid.update();
 	}
 
 }

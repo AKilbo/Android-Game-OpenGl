@@ -1,5 +1,6 @@
 package duckcult.game.model;
 
+import duckcult.game.model.components.Speed;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -14,11 +15,13 @@ public class Droid {
 	private int x;
 	private int y;
 	private boolean touched;
+	private Speed speed;
 	
 	public Droid(Bitmap bitmap, int x, int y) {
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
+		this.speed = new Speed();
 	}
 	
 	public Bitmap getBitmap() {
@@ -45,6 +48,14 @@ public class Droid {
 		this.y=y;
 	}
 	
+	public Speed getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(Speed speed) {
+		this.speed = speed;
+	}
+
 	public boolean isTouched() {
 		return touched;
 	}
@@ -58,8 +69,8 @@ public class Droid {
 	}
 	
 	public void handleActionDown(int eventX, int eventY) {
-		if(eventX>=(bitmap.getWidth()/2)&&(eventX <=(x+bitmap.getWidth()/2))) {
-			if(eventY >=(y-bitmap.getHeight()/2)&&(y<=(y+bitmap.getHeight()/2))){
+		if(eventX >= (x - bitmap.getWidth() / 2) && (eventX <= (x + bitmap.getWidth() / 2))) {
+			if(eventY >= (y - bitmap.getHeight() / 2) && (eventY <= (y + bitmap.getHeight() / 2))){
 				//droid touched
 				setTouched(true);
 			}
@@ -70,5 +81,13 @@ public class Droid {
 		else {
 			setTouched(false);
 		}
+	}
+
+	public void update() {
+		if(!touched) {
+			x+=(speed.getXv()*speed.getxDirection());
+			y+=(speed.getYv()*speed.getyDirection());
+		}
+		
 	}
 }

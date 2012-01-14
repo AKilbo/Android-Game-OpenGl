@@ -39,8 +39,10 @@ public class MainThread extends Thread {
 				canvas = this.surfaceHolder.lockCanvas();
 				synchronized (surfaceHolder) {
 					//update game state
+					this.gamePanel.update();
 					//draws the canvas on the panel
-					this.gamePanel.onDraw(canvas);
+					this.gamePanel.render(canvas);
+					//this.gamePanel.onDraw(canvas);
 				}
 			}
 			finally {
