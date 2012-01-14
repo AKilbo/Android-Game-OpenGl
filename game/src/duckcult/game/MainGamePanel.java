@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -22,6 +23,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 	private static final String TAG = MainGamePanel.class.getSimpleName();
 	private MainThread thread;
 	private Droid droid;
+	private String avgFPS;
 	
 	//Constructor
 	public MainGamePanel(Context context) {
@@ -30,6 +32,10 @@ public class MainGamePanel extends SurfaceView implements Callback {
 		droid = new Droid(BitmapFactory.decodeResource(getResources(), R.drawable.android),50,50);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
+	}
+
+	public void setAvgFPS(String avgFPS) {
+		this.avgFPS = avgFPS;
 	}
 
 	@Override
@@ -89,6 +95,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 	protected void render(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		droid.draw(canvas);
+		displayFPS(canvas,avgFPS);
 		//canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.android), 10, 10 ,null);
 	}
 
@@ -111,6 +118,14 @@ public class MainGamePanel extends SurfaceView implements Callback {
 		}
 		
 		droid.update();
+	}
+	
+	private void displayFPS(Canvas canvas, String fps){
+		if(canvas != null && fps !=null){
+			Paint paint = new Paint();
+			paint.setARGB(255, 255, 255, 255);
+			canvas.drawText(fps,this.getWidth()-50,20,paint);
+		}
 	}
 
 }
