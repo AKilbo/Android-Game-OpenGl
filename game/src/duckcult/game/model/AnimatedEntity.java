@@ -5,10 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-public class AnimatedEntity {
+public class AnimatedEntity extends Entity{
 	private static final String TAG = AnimatedEntity.class.getSimpleName();
 	
-	private Bitmap bitmap;
 	private Rect sourceRect;
 	private int frameNr;
 	private int currentFrame;
@@ -17,9 +16,6 @@ public class AnimatedEntity {
 	
 	private int spriteWidth;
 	private int spriteHeight;
-	
-	private int x;
-	private int y;
 	
 	/**
 	 * Basic constructor assumes the frames are all the same width and layout out horizontally
@@ -44,14 +40,6 @@ public class AnimatedEntity {
 		frameTicker = 0l;
 	}
 	
-	public int getX() {
-		return x;
-	}
-	
-	public int getY() {
-		return y;
-	}
-	
 	public void update(long gameTime){
 		if(gameTime > frameTicker + framePeriod){
 			frameTicker = gameTime;
@@ -64,6 +52,7 @@ public class AnimatedEntity {
 		this.sourceRect.right = this.sourceRect.left+spriteWidth;
 	}
 	
+	@Override
 	public void draw(Canvas canvas){
 		Rect destRect = new Rect(getX(),getY(),getX()+spriteWidth, getY()+spriteHeight);
 		canvas.drawBitmap(bitmap, sourceRect,destRect,null);

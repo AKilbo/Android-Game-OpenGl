@@ -121,7 +121,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 			droid.getSpeed().flipYDirection();
 		}
 		elaine.update(System.currentTimeMillis());
-		droid.update();
+		droid.update(System.currentTimeMillis());
 	}
 	
 	private void displayFPS(Canvas canvas, String fps){
