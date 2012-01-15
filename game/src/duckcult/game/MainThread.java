@@ -19,7 +19,7 @@ public class MainThread extends Thread {
 	private static final int MAX_FRAME_SKIPS = 5;
 	public static final int FRAME_PERIOD = 1000 / MAX_FPS;*/
 	
-//new stuff for stats	
+/*new stuff for stats	
 	private DecimalFormat df = new DecimalFormat("0.##");
 	private static final int STAT_INTERVAL = 1000;
 	private static final int FPS_HISTORY_NR=10;
@@ -33,7 +33,9 @@ public class MainThread extends Thread {
 	private double fpsStore [];
 	private long statsCount = 0;
 	private double averageFPS = 0.0;
-//end new stuff
+//end new stuff*/
+	private FPSStatistics stats;
+	private boolean takeStats = true;
 	
 	private SurfaceHolder surfaceHolder;
 	private MainGamePanel gamePanel;
@@ -43,6 +45,9 @@ public class MainThread extends Thread {
 		super();
 		this.surfaceHolder = surfaceHolder;
 		this.gamePanel = gamePanel;
+		if(takeStats) {
+			stats = new FPSStatistics(gamePanel);
+		}
 	}
 	
 	//flag to hold the game state
@@ -53,7 +58,7 @@ public class MainThread extends Thread {
 	public void run(){
 		Canvas canvas;
 		Log.d(TAG, "Starting game loop");
-		initTimingElements();
+		if(takeStats){stats.initTimingElements();}
 		
 		long beginTime;
 		long timeDiff;
@@ -100,8 +105,8 @@ public class MainThread extends Thread {
 						Log.d(TAG,"Skipped: "+framesSkipped);
 					}
 					
-					framesSkippedPerStatCycle += framesSkipped;
-					storeStats();
+					//framesSkippedPerStatCycle += framesSkipped;
+					if(takeStats){stats.storeStats(framesSkipped);}
 				}
 			}
 			finally {
@@ -117,7 +122,7 @@ public class MainThread extends Thread {
 		Log.d(TAG, "Game loop executed "+tickCount +" times");
 	}
 	
-//new stuff here
+/*new stuff here
 	private void storeStats() {
 		frameCountPerStatCycle++;
 		totalFrameCount++;
@@ -165,5 +170,5 @@ public class MainThread extends Thread {
 		}
 		Log.d(TAG+".initiatingTimeingElements()", "Timeing elements for stats initialised");
 	}
-//end new stuff
+//end new stuff*/
 }
