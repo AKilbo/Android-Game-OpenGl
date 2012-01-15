@@ -1,7 +1,5 @@
 package duckcult.game;
 
-import java.text.DecimalFormat;
-
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;

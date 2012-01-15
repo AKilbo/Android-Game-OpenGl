@@ -13,8 +13,7 @@ public class FPSStatistics {
 	private long lastStatusStore = 0;
 	private long statusIntervalTimer = 0l;
 	private long totalFramesSkipped = 0l;
-	private long framesSkippedPerStatCycle = 0l;
-	
+
 	private int frameCountPerStatCycle = 0;
 	private long totalFrameCount = 0l;
 	private double fpsStore [];
@@ -28,7 +27,6 @@ public class FPSStatistics {
 	}
 	
 	public void storeStats(int framesSkipped) {
-		framesSkippedPerStatCycle+=framesSkipped;
 		frameCountPerStatCycle++;
 		totalFrameCount++;
 		
@@ -56,9 +54,8 @@ public class FPSStatistics {
 				averageFPS=totalFPS/FPS_HISTORY_NR;
 			}
 			//saving the number of total frames skipped
-			totalFramesSkipped += framesSkippedPerStatCycle;
+			totalFramesSkipped += framesSkipped;
 			//reset counters
-			framesSkippedPerStatCycle = 0;
 			statusIntervalTimer = 0;
 			frameCountPerStatCycle = 0;
 			
@@ -74,5 +71,9 @@ public class FPSStatistics {
 			fpsStore[i]=0.0;
 		}
 		Log.d(TAG, "Timeing elements for stats initialised");
+	}
+	
+	public void report() {
+		Log.d(TAG,"Total number of frames: "+totalFrameCount+" \nTotal number of frames skipped: "+totalFramesSkipped);
 	}
 }
