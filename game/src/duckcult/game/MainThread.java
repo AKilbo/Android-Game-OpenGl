@@ -129,7 +129,7 @@ public class MainThread extends Thread {
 			//calculate the actual frames per status check interval
 			double actualFPS = (double)(frameCountPerStatCycle / (STAT_INTERVAL/1000));
 			//stores the latest fps in the array
-			fpsStore[(int) statsCount % FPS_HISTORY_NR] = actualFPS;
+			fpsStore[(int)statsCount % FPS_HISTORY_NR] = actualFPS;
 			statsCount++;
 			double totalFPS = 0.0;
 			//sum up the stored fps values

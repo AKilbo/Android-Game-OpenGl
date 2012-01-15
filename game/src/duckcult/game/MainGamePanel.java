@@ -1,5 +1,6 @@
 package duckcult.game;
 
+import duckcult.game.model.AnimatedEntity;
 import duckcult.game.model.Droid;
 import duckcult.game.model.components.Speed;
 import android.app.Activity;
@@ -23,12 +24,14 @@ public class MainGamePanel extends SurfaceView implements Callback {
 	private static final String TAG = MainGamePanel.class.getSimpleName();
 	private MainThread thread;
 	private Droid droid;
+	private AnimatedEntity elaine;
 	private String avgFPS;
 	
 	//Constructor
 	public MainGamePanel(Context context) {
 		super(context);
 		getHolder().addCallback(this);
+		elaine = new AnimatedEntity(BitmapFactory.decodeResource(getResources(), R.drawable.walk_elaine),10,50,30,47,5,5);
 		droid = new Droid(BitmapFactory.decodeResource(getResources(), R.drawable.android),50,50);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
@@ -95,6 +98,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 	protected void render(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		droid.draw(canvas);
+		elaine.draw(canvas);
 		displayFPS(canvas,avgFPS);
 		//canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.android), 10, 10 ,null);
 	}
@@ -116,7 +120,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 				&& droid.getY() -droid.getBitmap().getHeight()/2 <= 0) {
 			droid.getSpeed().flipYDirection();
 		}
-		
+		elaine.update(System.currentTimeMillis());
 		droid.update();
 	}
 	
