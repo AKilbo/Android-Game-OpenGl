@@ -9,6 +9,7 @@ This repo contains code for a basic Android game.
 * Investigate issues with screen orientation changes
 * Investigate other state restoration things onStop
 * Generalise the GamePanel class
+* Seperate the game state from GamePanel?
 * Consider a more elaborate Entity/Component model
 * Mock up the 'dial' interaction
 * Fleshout the basics of the game more
