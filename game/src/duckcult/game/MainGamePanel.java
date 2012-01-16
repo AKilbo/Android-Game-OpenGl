@@ -2,6 +2,7 @@ package duckcult.game;
 
 import duckcult.game.model.AnimatedEntity;
 import duckcult.game.model.Droid;
+import duckcult.game.model.Explosion;
 import duckcult.game.model.components.Speed;
 import android.app.Activity;
 import android.content.Context;
@@ -22,10 +23,12 @@ import android.view.SurfaceHolder.Callback;
 public class MainGamePanel extends SurfaceView implements Callback {
 
 	private static final String TAG = MainGamePanel.class.getSimpleName();
+	private static final int EXPLOSION_SIZE = 200;
 	private MainThread thread;
 	private Droid droid;
 	private AnimatedEntity elaine;
 	private String avgFPS;
+	private Explosion[] explosions;
 	
 	//Constructor
 	public MainGamePanel(Context context) {
@@ -33,6 +36,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 		getHolder().addCallback(this);
 		elaine = new AnimatedEntity(BitmapFactory.decodeResource(getResources(), R.drawable.walk_elaine),10,50,30,47,5,5);
 		droid = new Droid(BitmapFactory.decodeResource(getResources(), R.drawable.android),50,50);
+		explosions = new Explosion[10];
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 	}
@@ -72,6 +76,17 @@ public class MainGamePanel extends SurfaceView implements Callback {
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction() == MotionEvent.ACTION_DOWN) {
 			droid.handleActionDown((int)event.getX(),(int)event.getY());
+			int currentExplosion = 0;
+			Explosion explosion = explosions[currentExplosion];
+			
+			while(explosion != null && explosion.isAlive() && currentExplosion < explosions.length-1) {
+				currentExplosion++;
+				explosion = explosions[currentExplosion];
+			}
+			if (explosion == null || !explosion.isAlive()) {
+				explosion = new Explosion(EXPLOSION_SIZE, (int)event.getX(),(int)event.getY());
+				explosions[currentExplosion] = explosion;
+			}
 			if(event.getY() > getHeight() -50) {
 				thread.setRunning(false);
 				((Activity)getContext()).finish();
@@ -99,6 +114,10 @@ public class MainGamePanel extends SurfaceView implements Callback {
 		canvas.drawColor(Color.BLACK);
 		droid.draw(canvas);
 		elaine.draw(canvas);
+		for (Explosion e:explosions) {
+			if(e!=null)
+				e.draw(canvas);
+		}
 		displayFPS(canvas,avgFPS);
 		//canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.android), 10, 10 ,null);
 	}
@@ -122,6 +141,10 @@ public class MainGamePanel extends SurfaceView implements Callback {
 		}
 		elaine.update(System.currentTimeMillis());
 		droid.update(System.currentTimeMillis());
+		for(Explosion e:explosions) {
+			if(e!=null)
+				e.update();
+		}
 	}
 	
 	private void displayFPS(Canvas canvas, String fps){
