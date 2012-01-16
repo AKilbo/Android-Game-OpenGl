@@ -4,6 +4,12 @@ import java.text.DecimalFormat;
 
 import android.util.Log;
 
+/**
+ * A class that measures the average frame-rate of the game and can displays it in
+ * the upper right hand corner of the screen. 
+ * @author eharpste
+ *
+ */
 public class FPSStatistics {
 	private static final String TAG = FPSStatistics.class.getSimpleName();
 	

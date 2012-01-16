@@ -2,10 +2,10 @@ package duckcult.game.model;
 
 import duckcult.game.model.components.Speed;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 
 /**
- * A basic interactable bitmap, for out purposes its a temporary demo
+ * A basic interactable bitmap, for our purposes its a temporary demo.
+ * Probably to the point that we can get rid of this.
  * based on code found here: http://www.javacodegeeks.com/2011/07/android-game-development-displaying.html
  * @author eharpste
  *

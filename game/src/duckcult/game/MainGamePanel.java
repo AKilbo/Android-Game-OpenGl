@@ -16,6 +16,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder.Callback;
 /**
+ * This class is basically a trash file for testing out new things. It contains a bunch of hard coded values
+ * and workarounds and not much time was spent in making it clean or effecient but feel free to use it to play with.
  * This class based on sample code found at: http://www.javacodegeeks.com/2011/07/android-game-development-basic-game_05.html
  * @author eharpste
  *

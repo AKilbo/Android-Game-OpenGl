@@ -5,7 +5,13 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
- * This code based on sample code found here: http://www.javacodegeeks.com/2011/07/android-game-development-basic-game_05.html
+ * The central game loop.
+ * At its most basic this is an infinite loop but there are optimizations for it to run at a constant game speed.
+ * Every cycle of the loop it will call update on the MainGamePanel
+ * Then it will call render on the MainGamePanel
+ * If the collective time of the update and render takes longer than specified in the FPSConstraints class it will update the game state of the MainGamePanel until it is caught up. 
+ * If you want to take statistics on the frame rate see FPSStatistics.java
+ * This code is originally based on sample code found here: http://www.javacodegeeks.com/2011/07/android-game-development-basic-game_05.html though it deviates somewhat now.
  * @author eharpste
  *
  */
@@ -13,13 +19,36 @@ public class MainThread extends Thread {
 	
 	private static final String TAG = MainThread.class.getSimpleName();
 	
+	/**
+	 * A statistics class to measure average frame rates
+	 */
 	private FPSStatistics stats;
+	/**
+	 * A flag to control when to display frame rates.
+	 * Currently hardCoded should probably have some kind of control option.
+	 */
 	private boolean takeStats = true;
 	
+	/**
+	 * No idea what this thing is but its necessary
+	 */
 	private SurfaceHolder surfaceHolder;
+	/**
+	 * The main display panel. 
+	 * This should probably be separate from the game state object eventually.
+	 */
 	private MainGamePanel gamePanel;
+	
+	/**
+	 * A flag for whether the game thread is running or not
+	 */
 	private boolean running;
 	
+	/**
+	 * Constructor
+	 * @param surfaceHolder	You need this for whatever reason
+	 * @param gamePanel		This is the main game panel
+	 */
 	public MainThread(SurfaceHolder surfaceHolder, MainGamePanel gamePanel) {
 		super();
 		this.surfaceHolder = surfaceHolder;
@@ -28,12 +57,31 @@ public class MainThread extends Thread {
 			stats = new FPSStatistics(gamePanel);
 		}
 	}
+
+	/**
+	 * Turns on the flag to record frame rate stats.
+	 * If its set to true it creates a new FPSStatistics object if it didn't already exist. 
+	 * @param takeThem
+	 */
+	public void setTakeStats(boolean takeThem) {
+		if(takeThem && stats != null) {
+			stats = new FPSStatistics(gamePanel);
+		}
+		takeStats = takeThem;
+	}
 	
-	//flag to hold the game state
+	/**
+	 * Sets the flag for whether the thread is running or not.
+	 * @param running
+	 */
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
 	
+	/**
+	 * Activates ALL THE THINGS!!!!
+	 * starts the central game loop.
+	 */
 	public void run(){
 		Canvas canvas;
 		Log.d(TAG, "Starting game loop");

@@ -6,6 +6,12 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+/**
+ * The central activity that starts the game.
+ * Some improvement is needed here to handle restarts and screen orientation changes.
+ * @author eharpste
+ *
+ */
 public class GameActivity extends Activity {
    
 	private static final String TAG = GameActivity.class.getSimpleName();

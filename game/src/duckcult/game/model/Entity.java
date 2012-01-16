@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 /**
  * A Basic Entity class that all things can inherit from.
  * Basically it has a position, ability to be drawn and ability to be touched.
+ * This should probably only have an abstract draw method not an implemented one then it can underlie
+ * THe particle and explosion as well. 
  * @author eharpste
  *
  */

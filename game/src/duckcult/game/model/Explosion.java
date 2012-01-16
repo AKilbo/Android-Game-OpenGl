@@ -3,6 +3,13 @@ package duckcult.game.model;
 import android.graphics.Canvas;
 import android.util.Log;
 
+/**
+ * A basic particle explosion.
+ * This is extremely general at the moment but will probably server as a good template
+ * later on, especially for spells.
+ * @author eharpste
+ *
+ */
 public class Explosion {
 	public static final String TAG = Explosion.class.getSimpleName();
 	
@@ -10,19 +17,14 @@ public class Explosion {
 	public static final int STATE_DEAD = 1;
 	
 	private Particle [] particles;
-	private int x,y;
-	private int size;
-	private int state;
 	
 	public Explosion (int particleNum, int x, int y) {
 		Log.d(TAG, "Explosion created at "+x+","+y);
-		this.state = STATE_ALIVE;
 		this.particles = new Particle[particleNum];
 		for (int i = 0; i < this.particles.length; i++){
 			Particle p = new Particle(x,y);
 			this.particles[i]=p;
 		}
-		this.size = particleNum;
 	}
 	
 	public void update() {

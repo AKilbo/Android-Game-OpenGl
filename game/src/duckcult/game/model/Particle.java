@@ -4,6 +4,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+/**
+ * The individual particles of the explosion particle system.
+ * This might be useful to be a private class of the particle system itself.
+ * @author eharpste
+ *
+ */
 public class Particle {
 	public static final int STATE_ALIVE = 0;
 	public static final int STATE_DEAD = 1;

@@ -5,6 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+/**
+ * An extension of the entity class that enables an animated sprite display.
+ * Should probably just call this a Sprite. I should also put the interaction code here.
+ * @author eharpste
+ *
+ */
 public class AnimatedEntity extends Entity{
 	private static final String TAG = AnimatedEntity.class.getSimpleName();
 	

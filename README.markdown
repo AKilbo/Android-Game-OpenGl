@@ -13,3 +13,4 @@ This repo contains code for a basic Android game.
 * Consider a more elaborate Entity/Component model
 * Mock up the 'dial' interaction
 * Fleshout the basics of the game more
+* Implement and RPG style background
