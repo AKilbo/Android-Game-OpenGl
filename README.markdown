@@ -14,3 +14,4 @@ This repo contains code for a basic Android game.
 * Mock up the 'dial' interaction
 * Fleshout the basics of the game more
 * Implement and RPG style background
+* Some method to do more than just straight lines in particle systems

@@ -46,6 +46,24 @@ public class Particle {
 		this.paint = new Paint(this.color);
 	}
 	
+	public Particle (int x, int y, int red, int green, int blue) {
+		this.x = x;
+		this.y = y;
+		this.state = Particle.STATE_ALIVE;
+		this.width = randInt(1,MAX_DIMENSION);
+		this.height = this.width;
+		this.lifetime = DEFAULT_LIFETIME;
+		this.age = 0;
+		this.xv = (randDouble(0, MAX_SPEED * 2) - MAX_SPEED);
+		this.yv = (randDouble(0, MAX_SPEED * 2) - MAX_SPEED);
+		if(xv * xv + yv * yv > MAX_SPEED * MAX_SPEED){
+			xv *= 0.7;
+			yv *= 0.7;
+		}
+		this.color = Color.argb(255,red, green, blue);
+		this.paint = new Paint(this.color);
+	}
+	
 	public void update() {
 		if(this.state != STATE_DEAD) {
 			this.x += this.xv;
