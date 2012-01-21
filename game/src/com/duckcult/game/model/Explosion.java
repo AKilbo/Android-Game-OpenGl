@@ -1,4 +1,4 @@
-package duckcult.game.model;
+package com.duckcult.game.model;
 
 import android.graphics.Canvas;
 import android.util.Log;

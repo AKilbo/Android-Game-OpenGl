@@ -1,9 +1,11 @@
-package duckcult.game;
+package com.duckcult.game;
 
-import duckcult.game.model.AnimatedEntity;
-import duckcult.game.model.Droid;
-import duckcult.game.model.Explosion;
-import duckcult.game.model.components.Speed;
+import com.duckcult.game.model.AnimatedEntity;
+import com.duckcult.game.model.Droid;
+import com.duckcult.game.model.Explosion;
+import com.duckcult.game.model.components.Speed;
+
+import duckcult.game.R;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;

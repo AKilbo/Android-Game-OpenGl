@@ -1,4 +1,4 @@
-package duckcult.game;
+package com.duckcult.game;
 
 import java.text.DecimalFormat;
 

@@ -1,6 +1,7 @@
-package duckcult.game.model;
+package com.duckcult.game.model;
 
-import duckcult.game.model.components.Speed;
+import com.duckcult.game.model.components.Speed;
+
 import android.graphics.Bitmap;
 
 /**
