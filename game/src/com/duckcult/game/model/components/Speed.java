@@ -1,6 +1,6 @@
 package com.duckcult.game.model.components;
 
-import com.duckcult.game.FPSConstraints;
+import com.duckcult.game.engine.FPSConstraints;
 
 /**
  * A general component used to represent entities capable of having a speed

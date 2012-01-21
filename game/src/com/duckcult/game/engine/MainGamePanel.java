@@ -1,4 +1,4 @@
-package com.duckcult.game;
+package com.duckcult.game.engine;
 
 import com.duckcult.game.model.AnimatedEntity;
 import com.duckcult.game.model.Droid;

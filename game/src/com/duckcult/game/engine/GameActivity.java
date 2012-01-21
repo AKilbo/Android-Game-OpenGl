@@ -1,4 +1,4 @@
-package com.duckcult.game;
+package com.duckcult.game.engine;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.duckcult.game;
+package com.duckcult.game.engine;
 
 /**
  * A class designed to hold constants for FPS constraints in the engine.
