@@ -36,7 +36,7 @@ public class GameActivity extends Activity {
         
         // set our renderer to be the main renderer with
         // the current activity context
-        glSurfaceView.setRenderer(new GLRenderer());
+        glSurfaceView.setRenderer(new GLRenderer(this));
         setContentView(glSurfaceView);
         
         /*//the old method

@@ -3,15 +3,20 @@ package com.duckcult.game.engine.opengl;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 
 public class GLRenderer implements Renderer {
 
 	private Triangle triangle;
+	private Square square;
+	private Context context;
 	
-	public GLRenderer() {
+	public GLRenderer(Context context) {
 		this.triangle = new Triangle();
+		this.square = new Square();
+		this.context = context;
 	}
 	
 	@Override
@@ -25,7 +30,8 @@ public class GLRenderer implements Renderer {
 		// move 5 units INTO the screen
 		gl.glTranslatef(0.0f, 0.0f, -5.0f);
 		
-		triangle.draw(gl);
+		//triangle.draw(gl);
+		square.draw(gl);
 	}
 
 	@Override
@@ -48,7 +54,17 @@ public class GLRenderer implements Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		// TODO Auto-generated method stub
+		square.loadGLTexture(gl, this.context);
+		
+		gl.glEnable(GL10.GL_TEXTURE_2D);			//enable texture mapping
+		gl.glShadeModel(GL10.GL_SMOOTH);			//enable smooth shading
+		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);	//black background
+		gl.glClearDepthf(1.0f);						//depth buffer setup
+		gl.glEnable(GL10.GL_DEPTH_TEST);			//enables depth testing
+		gl.glDepthFunc(GL10.GL_LEQUAL);				//the type of depth testing to do
+		
+		//really nice perspective calculations
+		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
 	}
 
