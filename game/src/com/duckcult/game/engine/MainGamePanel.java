@@ -5,7 +5,7 @@ import com.duckcult.game.model.Droid;
 import com.duckcult.game.model.Explosion;
 import com.duckcult.game.model.components.Speed;
 
-import duckcult.game.R;
+import com.duckcult.game.R;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
