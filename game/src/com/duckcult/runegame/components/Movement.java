@@ -2,6 +2,7 @@ package com.duckcult.runegame.components;
 
 import com.artemis.utils.FastMath;
 import com.duckcult.game.engine.FPSConstraints;
+import com.wikidot.entitysystems.rdbmswithcodeinsystems.Component;
 
 /**
  * A general component used to represent entities capable of having a speed
@@ -9,23 +10,15 @@ import com.duckcult.game.engine.FPSConstraints;
  * @author eharpste
  *
  */
-public class Speed {
-	public static final int DIRECTION_RIGHT = 1;
-	public static final int DIRECTION_LEFT = -1;
-	public static final int DIRECTION_UP = -1;
-	public static final int DIRECTION_DOWN = 1;
-
+public class Movement implements Component{
 	private float xv = 1;
 	private float yv = 1;
-	
-	private int xDirection = DIRECTION_RIGHT;
-	private int yDirection = DIRECTION_DOWN;
 	
 	/**
 	 * Default Constructor
 	 * sets x and y velocities to 1
 	 */
-	public Speed() {
+	public Movement() {
 		this.setXv(1);
 		this.setYv(1);
 	}
@@ -36,7 +29,7 @@ public class Speed {
 	 * @param xVelocity	The velocity in the X direction in pixels/sec
 	 * @param yVelocity	The velocity in the y direction in pixels/sec
 	 */
-	public Speed(float xVelocity, float yVelocity) {
+	public Movement(float xVelocity, float yVelocity) {
 		this.setXv(FPSConstraints.PStoPU(xVelocity));
 		this.setYv(FPSConstraints.PStoPU(yVelocity));
 	}
@@ -48,8 +41,8 @@ public class Speed {
 	 */
 	public void setVelocity(float speed, float angle) {
 		angle %= 360;
-		this.setXv(FPSConstraints.PStoPU((float)FastMath.acos(angle)*speed));
-		this.setYv(FPSConstraints.PStoPU((float)FastMath.asin(angle)*speed));
+		this.setXv(FPSConstraints.PStoPU((float)FastMath.cos(angle)*speed));
+		this.setYv(FPSConstraints.PStoPU((float)FastMath.sin(angle)*speed));
 	}
 
 	public float getXv() {
@@ -68,27 +61,19 @@ public class Speed {
 		this.yv = yv;
 	}
 
-	public int getyDirection() {
-		return yDirection;
-	}
-
-	public void setyDirection(int yDirection) {
-		this.yDirection = yDirection;
-	}
-
-	public int getxDirection() {
-		return xDirection;
-	}
-
-	public void setxDirection(int xDirection) {
-		this.xDirection = xDirection;
-	}
-	
 	public void flipXDirection() {
-		xDirection = -xDirection;
+		xv = -xv;
 	}
 	
 	public void flipYDirection() {
-		yDirection = -yDirection;
+		yv = -yv;
+	}
+	
+	public float getAngle() {
+		return (float)FastMath.atan(yv/xv);
+	}
+	
+	public float getVelocity() {
+		return (float)FastMath.sqrt(xv*xv+yv*yv);
 	}
 }
