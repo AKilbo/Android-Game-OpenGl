@@ -10,12 +10,12 @@ import android.opengl.GLU;
 public class GLRenderer implements Renderer {
 
 	private Triangle triangle;
-	private Square square;
+	private Sprite sprite;
 	private Context context;
 	
 	public GLRenderer(Context context) {
 		this.triangle = new Triangle();
-		this.square = new Square();
+		this.sprite = new Sprite();
 		this.context = context;
 	}
 	
@@ -31,7 +31,7 @@ public class GLRenderer implements Renderer {
 		gl.glTranslatef(0.0f, 0.0f, -5.0f);
 		
 		//triangle.draw(gl);
-		square.draw(gl);
+		sprite.draw(gl);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class GLRenderer implements Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		square.loadGLTexture(gl, this.context);
+		sprite.loadGLTexture(gl, this.context);
 		
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//enable texture mapping
 		gl.glShadeModel(GL10.GL_SMOOTH);			//enable smooth shading

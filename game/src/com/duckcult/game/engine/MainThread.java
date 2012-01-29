@@ -1,5 +1,7 @@
 package com.duckcult.game.engine;
 
+import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
+
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -44,6 +46,8 @@ public class MainThread extends Thread {
 	 */
 	private boolean running;
 	
+	private EntityManager entityManager;
+	
 	/**
 	 * Constructor
 	 * @param surfaceHolder	You need this for whatever reason
@@ -53,6 +57,7 @@ public class MainThread extends Thread {
 		super();
 		this.surfaceHolder = surfaceHolder;
 		this.gamePanel = gamePanel;
+		this.entityManager = new EntityManager();
 		if(takeStats) {
 			stats = new FPSStatistics(gamePanel);
 		}
@@ -87,6 +92,7 @@ public class MainThread extends Thread {
 		Log.d(TAG, "Starting game loop");
 		if(takeStats){stats.initTimingElements();}
 		
+		
 		long beginTime;
 		long timeDiff;
 		int sleepTime;
@@ -95,6 +101,9 @@ public class MainThread extends Thread {
 		long tickCount;
 		tickCount = 0L;
 		
+	//start initializing stuff here
+							
+	//end initializing stuff here
 		while(running){
 			canvas = null;
 			
