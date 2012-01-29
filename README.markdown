@@ -16,3 +16,7 @@ This repo contains code for a basic Android game.
 * Fleshout the basics of the game more
 * Implement and RPG style background
 * Some method to do more than just straight lines in particle system
+* 
+* Just putting a note here, we need to make the renderer only render on demand not continuously I will look into this
+* It would probably be good to split the work between logic and rendering, I'm open to doing either
+* When in doubt "I" in this doc refers to naxareth

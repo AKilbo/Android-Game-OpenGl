@@ -42,7 +42,7 @@ public class Sprite extends Square {
 		textureBuffer.position(0);
 	}
 	
-	public void draw(GL10 gl) {
+	public void render(GL10 gl) {
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
 		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);

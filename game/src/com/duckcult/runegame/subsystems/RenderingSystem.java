@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.graphics.Canvas;
+
 import com.duckcult.runegame.components.RenderableComponent;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.SubSystem;
@@ -26,6 +28,13 @@ public class RenderingSystem implements SubSystem {
 		List<RenderableComponent> components = entityManager.getAllComponentsOfType(RenderableComponent.class);
 		for(RenderableComponent comp:components){
 			comp.render(gl);
+		}
+	}
+	
+	public void render(Canvas canvas) {
+		List<RenderableComponent> components = entityManager.getAllComponentsOfType(RenderableComponent.class);
+		for(RenderableComponent comp:components){
+			comp.render(canvas);
 		}
 	}
 

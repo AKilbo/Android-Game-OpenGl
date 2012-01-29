@@ -31,7 +31,7 @@ public class GLRenderer implements Renderer {
 		gl.glTranslatef(0.0f, 0.0f, -5.0f);
 		
 		//triangle.draw(gl);
-		sprite.draw(gl);
+		sprite.render(gl);
 	}
 
 	@Override

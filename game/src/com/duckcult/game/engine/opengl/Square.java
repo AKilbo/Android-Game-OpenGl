@@ -39,7 +39,7 @@ public class Square {
 		vertexBuffer.position(0);
 	}
 	
-	public void draw(GL10 gl) {
+	public void render(GL10 gl) {
 		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
