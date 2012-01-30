@@ -12,8 +12,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
+import android.util.Log;
 
 public class Square {
+	public static final String TAG = Square.class.getSimpleName();
+	
 	
 	protected FloatBuffer vertexBuffer;
 	
@@ -50,7 +53,7 @@ public class Square {
 	}
 	
 	public void render(GL10 gl) {
-		
+		Log.d(TAG, "render");
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		
 		//set the color for the square

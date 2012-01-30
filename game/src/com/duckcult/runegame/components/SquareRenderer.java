@@ -4,10 +4,13 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.duckcult.game.engine.opengl.Square;
 
 public class SquareRenderer extends RenderableComponent {
+	public static final String TAG = SquareRenderer.class.getSimpleName();
+	
 	private Square square;
 	
 	public SquareRenderer() {
@@ -19,6 +22,7 @@ public class SquareRenderer extends RenderableComponent {
 	}
 	
 	public void render(GL10 gl) {
+		Log.d(TAG,"render");
 		square.render(gl);
 	}
 	

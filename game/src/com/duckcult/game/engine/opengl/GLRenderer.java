@@ -8,16 +8,22 @@ import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
+import android.util.Log;
 
 public class GLRenderer implements Renderer {
+	public static final String TAG = GLRenderer.class.getSimpleName(); 
+	
+	private EntityManager em;
 	private RenderingSystem renderingSystem;
 	
 	public GLRenderer(EntityManager entityManager) {
+		em = entityManager;
 		renderingSystem = new RenderingSystem(entityManager);
 	}
 	
 	@Override
 	public void onDrawFrame(GL10 gl) {
+		Log.d(TAG,"onDrawFrame");
 		// clear screen and depth buffer
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		
@@ -26,8 +32,9 @@ public class GLRenderer implements Renderer {
 
 		// move 5 units INTO the screen
 		gl.glTranslatef(0.0f, 0.0f, -5.0f);
-		
-		renderingSystem.processRender(gl);
+		//synchronized(em) {
+			renderingSystem.processRender(gl);
+		//}
 	}
 
 	@Override

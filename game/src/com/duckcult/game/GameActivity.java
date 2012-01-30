@@ -44,13 +44,13 @@ public class GameActivity extends Activity {
         glSurfaceView = new DuckGLSurfaceView(this,em);
         
         //create the game thread that will run the main loop
-        thread = new MainThread(glSurfaceView.getHolder(), glSurfaceView, em);
+        //thread = new MainThread(glSurfaceView.getHolder(), glSurfaceView, em);
         
         // set our renderer to be the main renderer with
         // the current activity context
         setContentView(glSurfaceView);
         
-        thread.run();
+       // thread.run();
         
         /*//the old method
         setContentView(new MainGamePanel(this));

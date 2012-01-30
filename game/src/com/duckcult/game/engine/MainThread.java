@@ -104,6 +104,7 @@ public class MainThread extends Thread {
 	 */
 	public void run(){
 	//	Canvas canvas;
+		//this.running = true;
 		Log.d(TAG, "Starting game loop");
 		if(takeStats){stats.initTimingElements();}
 		
@@ -128,7 +129,7 @@ public class MainThread extends Thread {
 			try {
 				//try locking the canvas for exclusive pixel editing on the surface
 				//canvas = this.surfaceHolder.lockCanvas();
-				synchronized (surfaceHolder) {
+				//synchronized (surfaceHolder) {
 					beginTime = System.currentTimeMillis();
 					framesSkipped = 0;
 					//update game state
@@ -165,7 +166,7 @@ public class MainThread extends Thread {
 					
 					if(takeStats){stats.storeStats(framesSkipped);}
 				}
-			}
+		//	}
 			finally {
 				//in case of an exception the surface is not left in an inconsistent state
 				/*if(canvas != null) {
