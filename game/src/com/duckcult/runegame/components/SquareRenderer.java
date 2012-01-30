@@ -11,7 +11,7 @@ public class SquareRenderer extends RenderableComponent {
 	private Square square;
 	
 	public SquareRenderer() {
-		square = new Square(0.0f, .5f, 0.0f, .9f);
+		square = new Square(0.0f, 1.0f, 0.0f, .5f);
 	}
 	
 	public SquareRenderer(Square square) {

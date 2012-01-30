@@ -52,9 +52,6 @@ public class Square {
 	public void render(GL10 gl) {
 		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-		
-		gl.glFrontFace(GL10.GL_CW);
 		
 		//set the color for the square
 		gl.glColor4f(red, green, blue, alpha);
@@ -67,7 +64,6 @@ public class Square {
 		
 		//disable the client state before leaving
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}
 	
 	/**
