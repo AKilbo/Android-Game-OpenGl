@@ -1,7 +1,10 @@
 package com.duckcult.game;
 
 import com.duckcult.game.engine.MainGamePanel;
+import com.duckcult.game.engine.MainThread;
+import com.duckcult.game.engine.opengl.DuckGLSurfaceView;
 import com.duckcult.game.engine.opengl.GLRenderer;
+import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
@@ -19,7 +22,9 @@ import android.view.WindowManager;
 public class GameActivity extends Activity {
    
 	private static final String TAG = GameActivity.class.getSimpleName();
-	private GLSurfaceView glSurfaceView;
+	private DuckGLSurfaceView glSurfaceView;
+	private EntityManager em;
+	private MainThread thread;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -30,14 +35,22 @@ public class GameActivity extends Activity {
         //makes it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
+        
+        //create the entityManager the heart of the game world
+        em = new EntityManager();
+        
         // Initiate the Open GL view and
         // create an instance with this activity
-        glSurfaceView = new GLSurfaceView(this);
+        glSurfaceView = new DuckGLSurfaceView(this,em);
+        
+        //create the game thread that will run the main loop
+        thread = new MainThread(glSurfaceView.getHolder(), glSurfaceView, em);
         
         // set our renderer to be the main renderer with
         // the current activity context
-        glSurfaceView.setRenderer(new GLRenderer(this));
         setContentView(glSurfaceView);
+        
+        thread.run();
         
         /*//the old method
         setContentView(new MainGamePanel(this));

@@ -1,5 +1,11 @@
 package com.duckcult.game.engine;
 
+import com.duckcult.game.engine.opengl.DuckGLSurfaceView;
+import com.duckcult.runegame.components.Drag;
+import com.duckcult.runegame.components.Position;
+import com.duckcult.runegame.components.SquareRenderer;
+import com.duckcult.runegame.subsystems.MovementSystem;
+import com.duckcult.runegame.subsystems.RenderingSystem;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 
 import android.graphics.Canvas;
@@ -29,7 +35,7 @@ public class MainThread extends Thread {
 	 * A flag to control when to display frame rates.
 	 * Currently hardCoded should probably have some kind of control option.
 	 */
-	private boolean takeStats = true;
+	private boolean takeStats = false;
 	
 	/**
 	 * No idea what this thing is but its necessary
@@ -39,27 +45,36 @@ public class MainThread extends Thread {
 	 * The main display panel. 
 	 * This should probably be separate from the game state object eventually.
 	 */
-	private MainGamePanel gamePanel;
+	//private MainGamePanel gamePanel;
 	
 	/**
 	 * A flag for whether the game thread is running or not
 	 */
 	private boolean running;
 	
-	private EntityManager entityManager;
+	private DuckGLSurfaceView dglSurfaceView;
+	
+	private EntityManager em;
+
+	private MovementSystem movementSystem;
+	//note this is not actually the system that renders the visual that one lives in the GLRenderer
+	//becasue of the nature of systems it doesn't actually matter that there are 2 of them
+	private RenderingSystem renderingSystem;
 	
 	/**
 	 * Constructor
 	 * @param surfaceHolder	You need this for whatever reason
 	 * @param gamePanel		This is the main game panel
 	 */
-	public MainThread(SurfaceHolder surfaceHolder, MainGamePanel gamePanel) {
+	public MainThread(SurfaceHolder surfaceHolder, DuckGLSurfaceView surfaceView, EntityManager entityManager) {
 		super();
 		this.surfaceHolder = surfaceHolder;
-		this.gamePanel = gamePanel;
-		this.entityManager = new EntityManager();
+		//this.gamePanel = gamePanel;
+		this.dglSurfaceView = surfaceView;
+		this.em = entityManager;
+		initializeSystems();
 		if(takeStats) {
-			stats = new FPSStatistics(gamePanel);
+		//	stats = new FPSStatistics(gamePanel);
 		}
 	}
 
@@ -70,7 +85,7 @@ public class MainThread extends Thread {
 	 */
 	public void setTakeStats(boolean takeThem) {
 		if(takeThem && stats != null) {
-			stats = new FPSStatistics(gamePanel);
+//			stats = new FPSStatistics(gamePanel);
 		}
 		takeStats = takeThem;
 	}
@@ -88,7 +103,7 @@ public class MainThread extends Thread {
 	 * starts the central game loop.
 	 */
 	public void run(){
-		Canvas canvas;
+	//	Canvas canvas;
 		Log.d(TAG, "Starting game loop");
 		if(takeStats){stats.initTimingElements();}
 		
@@ -102,21 +117,27 @@ public class MainThread extends Thread {
 		tickCount = 0L;
 		
 	//start initializing stuff here
-							
+		int entity = em.createEntity();
+		em.addComponent(entity, new Position());
+		em.addComponent(entity, new SquareRenderer());
+		em.addComponent(entity, new Drag());
 	//end initializing stuff here
 		while(running){
-			canvas = null;
+		//	canvas = null;
 			
 			try {
 				//try locking the canvas for exclusive pixel editing on the surface
-				canvas = this.surfaceHolder.lockCanvas();
+				//canvas = this.surfaceHolder.lockCanvas();
 				synchronized (surfaceHolder) {
 					beginTime = System.currentTimeMillis();
 					framesSkipped = 0;
 					//update game state
-					this.gamePanel.update();
+//					this.gamePanel.update();
+					this.updateSystems(beginTime);
+					//movementSystem.processOneGameTick(beginTime);
 					//draws the canvas on the panel
-					this.gamePanel.render(canvas);
+					this.dglSurfaceView.requestRender();
+//					this.gamePanel.render(canvas);
 					timeDiff = System.currentTimeMillis() - beginTime;
 					sleepTime = (int)(FPSConstraints.FRAME_PERIOD - timeDiff);
 					
@@ -132,7 +153,8 @@ public class MainThread extends Thread {
 					
 					while(sleepTime < 0 && framesSkipped < FPSConstraints.MAX_FRAME_SKIPS) {
 						//if sleepTime < 0 we're behind schedule
-						this.gamePanel.update();
+						this.updateSystems(beginTime);
+//						this.gamePanel.update();
 						sleepTime += FPSConstraints.FRAME_PERIOD;
 						framesSkipped++;
 					}
@@ -146,12 +168,22 @@ public class MainThread extends Thread {
 			}
 			finally {
 				//in case of an exception the surface is not left in an inconsistent state
-				if(canvas != null) {
+				/*if(canvas != null) {
 					surfaceHolder.unlockCanvasAndPost(canvas);
-				}
+				}*/
 			}
 			tickCount++;
 		}
 		Log.d(TAG, "Game loop executed "+tickCount +" times");
+	}
+	
+	private void initializeSystems() {
+		movementSystem = new MovementSystem(em);
+		renderingSystem = new RenderingSystem(em);
+	}
+	
+	private void updateSystems (long lastFrameTime) {
+		movementSystem.processOneGameTick(lastFrameTime);
+		renderingSystem.processOneGameTick(lastFrameTime);
 	}
 }

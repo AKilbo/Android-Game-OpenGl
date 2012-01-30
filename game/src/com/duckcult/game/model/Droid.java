@@ -1,6 +1,6 @@
 package com.duckcult.game.model;
 
-import com.duckcult.game.model.components.Speed;
+import com.duckcult.runegame.components.Movement;
 
 import android.graphics.Bitmap;
 
@@ -12,20 +12,20 @@ import android.graphics.Bitmap;
  *
  */
 public class Droid extends Entity{
-	private Speed speed;
+	private Movement speed;
 	
 	public Droid(Bitmap bitmap, int x, int y) {
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
-		this.speed = new Speed(40,40);
+		this.speed = new Movement(40,40);
 	}
 	
-	public Speed getSpeed() {
+	public Movement getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(Speed speed) {
+	public void setSpeed(Movement speed) {
 		this.speed = speed;
 	}
 
@@ -36,8 +36,8 @@ public class Droid extends Entity{
 	@Override
 	public void update(long gameTime) {
 		if(!touched) {
-			x+=(speed.getXv()*speed.getxDirection());
-			y+=(speed.getYv()*speed.getyDirection());
+			x+=(speed.getXv());
+			y+=(speed.getYv());
 		}
 	}
 }

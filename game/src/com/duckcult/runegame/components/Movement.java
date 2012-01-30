@@ -11,6 +11,11 @@ import com.wikidot.entitysystems.rdbmswithcodeinsystems.Component;
  *
  */
 public class Movement implements Component{
+	public static final int DIRECTION_UP = -1;
+	public static final int DIRECTION_DOWN = 1;
+	public static final int DIRECTION_LEFT = -1;
+	public static final int DIRECTION_RIGHT = 1;
+	
 	private float xv = 1;
 	private float yv = 1;
 	
@@ -75,5 +80,13 @@ public class Movement implements Component{
 	
 	public float getVelocity() {
 		return (float)FastMath.sqrt(xv*xv+yv*yv);
+	}
+	
+	public int getXDirection() {
+		return xv < 0 ? -1 : 1;
+	}
+	
+	public int getYDirection() {
+		return yv < 0 ? -1 : 1;
 	}
 }

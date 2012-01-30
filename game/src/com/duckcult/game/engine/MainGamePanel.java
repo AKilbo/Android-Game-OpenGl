@@ -3,9 +3,11 @@ package com.duckcult.game.engine;
 import com.duckcult.game.model.AnimatedEntity;
 import com.duckcult.game.model.Droid;
 import com.duckcult.game.model.Explosion;
-import com.duckcult.game.model.components.Speed;
 
 import com.duckcult.game.R;
+import com.duckcult.runegame.components.Movement;
+import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -24,6 +26,7 @@ import android.view.SurfaceHolder.Callback;
  * @author eharpste
  *
  */
+@Deprecated
 public class MainGamePanel extends SurfaceView implements Callback {
 
 	private static final String TAG = MainGamePanel.class.getSimpleName();
@@ -41,7 +44,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 		elaine = new AnimatedEntity(BitmapFactory.decodeResource(getResources(), R.drawable.walk_elaine),10,50,30,47,5,5);
 		droid = new Droid(BitmapFactory.decodeResource(getResources(), R.drawable.android),50,50);
 		explosions = new Explosion[10];
-		thread = new MainThread(getHolder(), this);
+//		thread = new MainThread(getHolder(), this,new EntityManager());
 		setFocusable(true);
 	}
 
@@ -127,19 +130,19 @@ public class MainGamePanel extends SurfaceView implements Callback {
 	}
 
 	public void update() {
-		if(droid.getSpeed().getxDirection() == Speed.DIRECTION_RIGHT 
+		if(droid.getSpeed().getXDirection() == Movement.DIRECTION_RIGHT 
 				&& droid.getX() +droid.getBitmap().getWidth()/2 >= getWidth()) {
 			droid.getSpeed().flipXDirection();
 		}
-		if(droid.getSpeed().getxDirection() == Speed.DIRECTION_LEFT 
+		if(droid.getSpeed().getXDirection() == Movement.DIRECTION_LEFT 
 				&& droid.getX() -droid.getBitmap().getWidth()/2 <=0) {
 			droid.getSpeed().flipXDirection();
 		}
-		if(droid.getSpeed().getyDirection() == Speed.DIRECTION_DOWN 
+		if(droid.getSpeed().getYDirection() == Movement.DIRECTION_DOWN 
 				&& droid.getY() +droid.getBitmap().getHeight()/2 >= getHeight()) {
 			droid.getSpeed().flipYDirection();
 		}
-		if(droid.getSpeed().getyDirection() == Speed.DIRECTION_UP 
+		if(droid.getSpeed().getYDirection() == Movement.DIRECTION_UP 
 				&& droid.getY() -droid.getBitmap().getHeight()/2 <= 0) {
 			droid.getSpeed().flipYDirection();
 		}

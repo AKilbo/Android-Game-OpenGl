@@ -3,20 +3,17 @@ package com.duckcult.game.engine.opengl;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
+import com.duckcult.runegame.subsystems.RenderingSystem;
+import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
+
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 
 public class GLRenderer implements Renderer {
-
-	private Triangle triangle;
-	private Sprite sprite;
-	private Context context;
+	private RenderingSystem renderingSystem;
 	
-	public GLRenderer(Context context) {
-		this.triangle = new Triangle();
-		this.sprite = new Sprite();
-		this.context = context;
+	public GLRenderer(EntityManager entityManager) {
+		renderingSystem = new RenderingSystem(entityManager);
 	}
 	
 	@Override
@@ -30,8 +27,7 @@ public class GLRenderer implements Renderer {
 		// move 5 units INTO the screen
 		gl.glTranslatef(0.0f, 0.0f, -5.0f);
 		
-		//triangle.draw(gl);
-		sprite.render(gl);
+		renderingSystem.processRender(gl);
 	}
 
 	@Override
@@ -54,7 +50,6 @@ public class GLRenderer implements Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		sprite.loadGLTexture(gl, this.context);
 		
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//enable texture mapping
 		gl.glShadeModel(GL10.GL_SMOOTH);			//enable smooth shading

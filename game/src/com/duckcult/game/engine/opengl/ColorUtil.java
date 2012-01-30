@@ -19,18 +19,27 @@ public class ColorUtil {
 		return ((float)Color.alpha(color))/255;
 	}
 	
+	public static float [] colorIntensity(int color) {
+		float [] ret = new float [4];
+		ret[0] = redIntensity(color);
+		ret[1] = greenIntensity(color);
+		ret[2] = blueIntensity(color);
+		ret[3] = alphaIntensity(color);
+		return ret;
+	}
+	
 	public static int intensityToInt(float redIntensity, float greenIntensity, float blueIntensity, float alphaIntensity){
-		int r = (int) (redIntensity >= 0f && redIntensity <= 1.0f ? (redIntensity*255) : 0);
-		int g = (int) (greenIntensity >= 0f && greenIntensity <= 1.0f ? (greenIntensity*255) : 0);
-		int b = (int) (blueIntensity >= 0f && blueIntensity <= 1.0f ? (blueIntensity*255) : 0);
-		int a = (int) (alphaIntensity >= 0f && alphaIntensity <= 1.0f ? (alphaIntensity*255) : 0);
+		int r = (int) (redIntensity >= 0.0f && redIntensity <= 1.0f ? (redIntensity*255) : 0);
+		int g = (int) (greenIntensity >= 0.0f && greenIntensity <= 1.0f ? (greenIntensity*255) : 0);
+		int b = (int) (blueIntensity >= 0.0f && blueIntensity <= 1.0f ? (blueIntensity*255) : 0);
+		int a = (int) (alphaIntensity >= 0.0f && alphaIntensity <= 1.0f ? (alphaIntensity*255) : 0);
 		return Color.argb(a, r, g, b);
 	}
 	
 	public static int intensityToInt(float redIntensity, float greenIntensity, float blueIntensity){
-		int r = (int) (redIntensity >= 0f && redIntensity <= 1.0f ? (redIntensity*255) : 0);
-		int g = (int) (greenIntensity >= 0f && greenIntensity <= 1.0f ? (greenIntensity*255) : 0);
-		int b = (int) (blueIntensity >= 0f && blueIntensity <= 1.0f ? (blueIntensity*255) : 0);
+		int r = (int) (redIntensity >= 0.0f && redIntensity <= 1.0f ? (redIntensity*255) : 0);
+		int g = (int) (greenIntensity >= 0.0f && greenIntensity <= 1.0f ? (greenIntensity*255) : 0);
+		int b = (int) (blueIntensity >= 0.0f && blueIntensity <= 1.0f ? (blueIntensity*255) : 0);
 		return Color.rgb(r, g, b);
 	}
 }
