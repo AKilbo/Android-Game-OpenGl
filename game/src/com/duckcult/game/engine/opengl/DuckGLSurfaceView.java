@@ -24,7 +24,7 @@ public class DuckGLSurfaceView extends GLSurfaceView {
 		setRenderer(new GLRenderer(em));
 		this.setEntityManager(em);
 		thread = new MainThread(getHolder(),this,em);
-		//setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 	}
 
 	
