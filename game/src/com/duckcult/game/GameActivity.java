@@ -1,13 +1,10 @@
 package com.duckcult.game;
 
-import com.duckcult.game.engine.MainGamePanel;
-import com.duckcult.game.engine.MainThread;
+import com.duckcult.game.engine.GameThread;
 import com.duckcult.game.engine.opengl.DuckGLSurfaceView;
-import com.duckcult.game.engine.opengl.GLRenderer;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 
 import android.app.Activity;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -24,7 +21,7 @@ public class GameActivity extends Activity {
 	private static final String TAG = GameActivity.class.getSimpleName();
 	private DuckGLSurfaceView glSurfaceView;
 	private EntityManager em;
-	private MainThread thread;
+	private GameThread thread;
 	
 	/** Called when the activity is first created. */
     @Override

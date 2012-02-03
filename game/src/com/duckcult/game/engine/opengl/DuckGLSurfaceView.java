@@ -1,6 +1,6 @@
 package com.duckcult.game.engine.opengl;
 
-import com.duckcult.game.engine.MainThread;
+import com.duckcult.game.engine.GameThread;
 import com.duckcult.runegame.subsystems.TouchSystem;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 
@@ -16,14 +16,14 @@ public class DuckGLSurfaceView extends GLSurfaceView {
 	
 	private EntityManager em;
 	private TouchSystem touchSystem;
-	private MainThread thread;
+	private GameThread thread;
 	
 	public DuckGLSurfaceView(Context context, EntityManager em) {
 		super(context);
 		
 		setRenderer(new GLRenderer(em));
 		this.setEntityManager(em);
-		thread = new MainThread(getHolder(),this,em);
+		thread = new GameThread(getHolder(),this,em);
 		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 	}
 

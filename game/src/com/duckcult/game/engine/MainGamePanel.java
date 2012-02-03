@@ -6,8 +6,6 @@ import com.duckcult.game.model.Explosion;
 
 import com.duckcult.game.R;
 import com.duckcult.runegame.components.Movement;
-import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -31,7 +29,7 @@ public class MainGamePanel extends SurfaceView implements Callback {
 
 	private static final String TAG = MainGamePanel.class.getSimpleName();
 	private static final int EXPLOSION_SIZE = 200;
-	private MainThread thread;
+	private GameThread thread;
 	private Droid droid;
 	private AnimatedEntity elaine;
 	private String avgFPS;
