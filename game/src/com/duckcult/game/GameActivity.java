@@ -1,12 +1,16 @@
 package com.duckcult.game;
 
+import com.duckcult.game.engine.DuckCanvasSurfaceView;
+import com.duckcult.game.engine.DuckSurfaceView;
 import com.duckcult.game.engine.GameThread;
 import com.duckcult.game.engine.opengl.DuckGLSurfaceView;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 
 import android.app.Activity;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -19,9 +23,10 @@ import android.view.WindowManager;
 public class GameActivity extends Activity {
    
 	private static final String TAG = GameActivity.class.getSimpleName();
-	private DuckGLSurfaceView glSurfaceView;
+	
+	private final boolean useOpenGL = true;
+	private DuckSurfaceView surfaceView;
 	private EntityManager em;
-	private GameThread thread;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -36,16 +41,16 @@ public class GameActivity extends Activity {
         //create the entityManager the heart of the game world
         em = new EntityManager();
         
-        // Initiate the Open GL view and
+        // Initiate the surfaceView and
         // create an instance with this activity
-        glSurfaceView = new DuckGLSurfaceView(this,em);
-        
-        //create the game thread that will run the main loop
-        //thread = new MainThread(glSurfaceView.getHolder(), glSurfaceView, em);
+        if(useOpenGL)
+        	surfaceView = new DuckGLSurfaceView(this,em);
+        else
+        	surfaceView = new DuckCanvasSurfaceView(this,em);
         
         // set our renderer to be the main renderer with
         // the current activity context
-        setContentView(glSurfaceView);
+        setContentView((SurfaceView)surfaceView);
         
        // thread.run();
         
@@ -67,11 +72,13 @@ public class GameActivity extends Activity {
     
     protected void onResume() {
     	super.onResume();
-    	glSurfaceView.onResume();
+    	if(useOpenGL) 
+    		((DuckGLSurfaceView)surfaceView).onResume();
     }
     
     protected void onPause() {
     	super.onPause();
-    	glSurfaceView.onPause();
+    	if(useOpenGL)
+    		((DuckGLSurfaceView)surfaceView).onPause();
     }
 }
