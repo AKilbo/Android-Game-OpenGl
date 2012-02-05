@@ -8,6 +8,7 @@ import com.duckcult.runegame.subsystems.MovementSystem;
 import com.duckcult.runegame.subsystems.RenderingSystem;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 
+import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -40,24 +41,22 @@ public class GameThread extends Thread {
 	 * No idea what this thing is but its necessary
 	 */
 	private SurfaceHolder surfaceHolder;
-	/**
-	 * The main display panel. 
-	 * This should probably be separate from the game state object eventually.
-	 */
-	//private MainGamePanel gamePanel;
 	
 	/**
 	 * A flag for whether the game thread is running or not
 	 */
 	private boolean running;
 	
-	private DuckGLSurfaceView dglSurfaceView;
+	private DuckGLSurfaceView dglSurfaceView = null;
+	private DuckCanvasSurfaceView canvasSurfaceView = null;
+	
+	private boolean useOGL = false;
 	
 	private EntityManager em;
 
 	private MovementSystem movementSystem;
-	//note this is not actually the system that renders the visual that one lives in the GLRenderer
-	//becasue of the nature of systems it doesn't actually matter that there are 2 of them
+	//note this is not actually the system that renders the visual that one lives in the relevant SurfaceView
+	//because of the nature of systems it doesn't actually matter that there are 2 of them
 	private RenderingSystem renderingSystem;
 	
 	/**
@@ -68,12 +67,24 @@ public class GameThread extends Thread {
 	public GameThread(SurfaceHolder surfaceHolder, DuckGLSurfaceView surfaceView, EntityManager entityManager) {
 		super();
 		this.surfaceHolder = surfaceHolder;
-		//this.gamePanel = gamePanel;
 		this.dglSurfaceView = surfaceView;
 		this.em = entityManager;
 		initializeSystems();
+		useOGL = true;
 		if(takeStats) {
-		//	stats = new FPSStatistics(gamePanel);
+			stats = new FPSStatistics(surfaceView);
+		}
+	}
+	
+	public GameThread(SurfaceHolder surfaceHolder, DuckCanvasSurfaceView surfaceView, EntityManager entityManager) {
+		super();
+		this.surfaceHolder = surfaceHolder;
+		this.canvasSurfaceView = surfaceView;
+		this.em = entityManager;
+		initializeSystems();
+		useOGL = false;
+		if(takeStats) {
+			stats = new FPSStatistics(surfaceView);
 		}
 	}
 
@@ -84,7 +95,10 @@ public class GameThread extends Thread {
 	 */
 	public void setTakeStats(boolean takeThem) {
 		if(takeThem && stats != null) {
-//			stats = new FPSStatistics(gamePanel);
+			if(useOGL)
+				stats = new FPSStatistics(dglSurfaceView);
+			else
+				stats = new FPSStatistics(canvasSurfaceView);
 		}
 		takeStats = takeThem;
 	}
@@ -102,8 +116,7 @@ public class GameThread extends Thread {
 	 * starts the central game loop.
 	 */
 	public void run(){
-	//	Canvas canvas;
-		//this.running = true;
+		Canvas canvas = null;
 		Log.d(TAG, "Starting game loop");
 		if(takeStats){stats.initTimingElements();}
 		
@@ -122,30 +135,23 @@ public class GameThread extends Thread {
 		em.addComponent(entity, new SquareRenderer());
 		em.addComponent(entity, new Drag());
 	//end initializing stuff here
+	
 		while(running){
-		//	canvas = null;
-			
-			try {
-				//try locking the canvas for exclusive pixel editing on the surface
-				//canvas = this.surfaceHolder.lockCanvas();
-				//synchronized (surfaceHolder) {
+				//if rendering with openGL
+				if(useOGL) {
 					beginTime = System.currentTimeMillis();
 					framesSkipped = 0;
 					//update game state
-//					this.gamePanel.update();
 					this.updateSystems(beginTime);
-					//movementSystem.processOneGameTick(beginTime);
-					//draws the canvas on the panel
+					//draw the frame
 					this.dglSurfaceView.requestRender();
-//					this.gamePanel.render(canvas);
 					timeDiff = System.currentTimeMillis() - beginTime;
 					sleepTime = (int)(FPSConstraints.FRAME_PERIOD - timeDiff);
 					
 					if(sleepTime > 0){
 						//if sleepTime > 0 we're ahead of schedule
 						try{
-							//sleep the thread if we're ahead
-							//this saves battery
+							//sleep the thread if we're ahead this saves battery
 							Thread.sleep(sleepTime);
 						}
 						catch(InterruptedException e){}
@@ -154,7 +160,6 @@ public class GameThread extends Thread {
 					while(sleepTime < 0 && framesSkipped < FPSConstraints.MAX_FRAME_SKIPS) {
 						//if sleepTime < 0 we're behind schedule
 						this.updateSystems(beginTime);
-//						this.gamePanel.update();
 						sleepTime += FPSConstraints.FRAME_PERIOD;
 						framesSkipped++;
 					}
@@ -165,17 +170,52 @@ public class GameThread extends Thread {
 					
 					if(takeStats){stats.storeStats(framesSkipped);}
 				}
-		//	}
-			finally {
-				//in case of an exception the surface is not left in an inconsistent state
-				/*if(canvas != null) {
-					surfaceHolder.unlockCanvasAndPost(canvas);
-				}*/
-			}
+				
+				//if rendering wit ha standard android canvas
+				else {
+					try {
+						//try locking the canvas for exclusive pixel editing on the surface
+						canvas = this.surfaceHolder.lockCanvas();
+						synchronized (surfaceHolder) {
+							beginTime = System.currentTimeMillis();
+							framesSkipped = 0;
+							this.updateSystems(beginTime);
+							this.canvasSurfaceView.render(canvas);
+							timeDiff = System.currentTimeMillis() - beginTime;
+							sleepTime = (int)(FPSConstraints.FRAME_PERIOD - timeDiff);
+							if(sleepTime > 0){
+								//if sleepTime > 0 we're ahead of schedule
+								try{
+									//sleep the thread if we're ahead this saves battery
+									Thread.sleep(sleepTime);
+								}
+								catch(InterruptedException e){}
+							}
+							while(sleepTime < 0 && framesSkipped < FPSConstraints.MAX_FRAME_SKIPS) {
+								//if sleepTime < 0 we're behind schedule
+								this.updateSystems(beginTime);
+								sleepTime += FPSConstraints.FRAME_PERIOD;
+								framesSkipped++;
+							}
+							
+							if(framesSkipped >0) {
+								Log.d(TAG,"Skipped: "+framesSkipped);
+							}
+							
+							if(takeStats){stats.storeStats(framesSkipped);}
+						}
+					}
+					finally {
+						//in case of an exception the surface is not left in an inconsistent state
+						if(canvas != null) {
+							surfaceHolder.unlockCanvasAndPost(canvas);
+						}
+					}
+				}
+				}
 			tickCount++;
+			Log.d(TAG, "Game loop executed "+tickCount +" times");
 		}
-		Log.d(TAG, "Game loop executed "+tickCount +" times");
-	}
 	
 	private void initializeSystems() {
 		movementSystem = new MovementSystem(em);

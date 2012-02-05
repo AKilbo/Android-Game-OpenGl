@@ -1,5 +1,6 @@
 package com.duckcult.game.engine.opengl;
 
+import com.duckcult.game.engine.DuckSurfaceView;
 import com.duckcult.game.engine.GameThread;
 import com.duckcult.runegame.subsystems.TouchSystem;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
@@ -11,12 +12,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-public class DuckGLSurfaceView extends GLSurfaceView {
+public class DuckGLSurfaceView extends GLSurfaceView implements DuckSurfaceView{
 	public static final String TAG = DuckGLSurfaceView.class.getSimpleName();
 	
 	private EntityManager em;
 	private TouchSystem touchSystem;
 	private GameThread thread;
+	private String avgFPS;
 	
 	public DuckGLSurfaceView(Context context, EntityManager em) {
 		super(context);
@@ -51,5 +53,11 @@ public class DuckGLSurfaceView extends GLSurfaceView {
 	public void requestRender() {
 	//	Log.d(TAG, "requestRender");
 		super.requestRender();
+	}
+
+
+	@Override
+	public void setAvgFPS(String avgFPS) {
+		this.avgFPS = avgFPS;	
 	}
 }

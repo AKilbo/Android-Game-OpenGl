@@ -26,10 +26,10 @@ public class FPSStatistics {
 	private long statsCount = 0;
 	private double averageFPS = 0.0;
 	
-	private MainGamePanel gamePanel;
+	private DuckSurfaceView dsv;
 	
-	public FPSStatistics(MainGamePanel gamePanel) {
-		this.gamePanel = gamePanel;
+	public FPSStatistics(DuckSurfaceView surfaceView) {
+		this.dsv = surfaceView;
 	}
 	
 	public void storeStats(int framesSkipped) {
@@ -67,7 +67,7 @@ public class FPSStatistics {
 			
 			statusIntervalTimer = System.currentTimeMillis();
 			lastStatusStore = statusIntervalTimer;
-			gamePanel.setAvgFPS("FPS: "+df.format(averageFPS));
+			dsv.setAvgFPS("FPS: "+df.format(averageFPS));
 		}
 	}
 	
