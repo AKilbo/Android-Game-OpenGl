@@ -24,7 +24,7 @@ public class GameActivity extends Activity {
    
 	private static final String TAG = GameActivity.class.getSimpleName();
 	
-	public final boolean useOpenGL = true;
+	public static final boolean useOpenGL = true;
 	private DuckSurfaceView surfaceView;
 	private EntityManager em;
 	

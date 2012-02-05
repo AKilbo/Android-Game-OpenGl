@@ -9,14 +9,25 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.opengl.GLUtils;
 
+import com.duckcult.game.GameActivity;
 import com.duckcult.game.R;
+import com.duckcult.game.engine.opengl.primitives.Renderable;
 import com.duckcult.game.engine.opengl.primitives.Square;
 
-public class Sprite extends Square {
+public class Sprite extends Renderable {
 	protected FloatBuffer textureBuffer;
+	protected FloatBuffer vertexBuffer;
 	protected int[] textures = new int[1];
+	
+	protected float verticies[] = {
+			-1.0f, -1.0f, 0.0f,
+			-1.0f,  1.0f, 0.0f,
+			 1.0f, -1.0f, 0.0f,
+			 1.0f,  1.0f, 0.0f
+	};
 	
 	protected float texture[] = {
 			0.0f, 1.0f,
@@ -25,22 +36,31 @@ public class Sprite extends Square {
 			1.0f, 0.0f
 	};
 	
+	private Bitmap bitmap = null;
+	
 	public Sprite() {
-		// allocate 4 bytes for the floats
-		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(verticies.length * 4);
-		byteBuffer.order(ByteOrder.nativeOrder());
-		//allocates the memory from the byte buffer
-		vertexBuffer = byteBuffer.asFloatBuffer();
-		//fill the vertexBuffer with the vertices
-		vertexBuffer.put(verticies);
-		//set the cursor position to the beginning of the buffer
-		vertexBuffer.position(0);
-		
-		byteBuffer = ByteBuffer.allocateDirect(texture.length * 4);
-		byteBuffer.order(ByteOrder.nativeOrder());
-		textureBuffer = byteBuffer.asFloatBuffer();
-		textureBuffer.put(texture);
-		textureBuffer.position(0);
+		if(GameActivity.useOpenGL) {
+			// allocate 4 bytes for the floats
+			ByteBuffer byteBuffer = ByteBuffer.allocateDirect(verticies.length * 4);
+			byteBuffer.order(ByteOrder.nativeOrder());
+			//allocates the memory from the byte buffer
+			vertexBuffer = byteBuffer.asFloatBuffer();
+			//fill the vertexBuffer with the vertices
+			vertexBuffer.put(verticies);
+			//set the cursor position to the beginning of the buffer
+			vertexBuffer.position(0);
+			
+			byteBuffer = ByteBuffer.allocateDirect(texture.length * 4);
+			byteBuffer.order(ByteOrder.nativeOrder());
+			textureBuffer = byteBuffer.asFloatBuffer();
+			textureBuffer.put(texture);
+			textureBuffer.position(0);
+		}
+	}
+	
+	public Sprite(Bitmap bitmap) {
+		this();
+		setBitmap(bitmap);
 	}
 	
 	public void render(GL10 gl) {
@@ -85,11 +105,13 @@ public class Sprite extends Square {
 		//Clean up
 		bitmap.recycle();
 	}
+	
+	public void setBitmap(Bitmap bitmap){
+		this.bitmap = bitmap;
+	}
 
 	@Override
-	public void setColor(float red, float blue, float green, float alpha) {	}
-	
-	public void setColor(int color){ }
-	
-	
+	public void render(Canvas canvas) {
+		canvas.drawBitmap(bitmap, x-(bitmap.getWidth()/2),y-(bitmap.getHeight()/2),null);	
+	}
 }

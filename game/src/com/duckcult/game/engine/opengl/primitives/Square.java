@@ -6,6 +6,8 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.duckcult.game.GameActivity;
+
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
@@ -23,15 +25,17 @@ public class Square extends Shape{
 	};
 	
 	public Square() {
-		// allocate 4 bytes for the floats
-		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(verticies.length * 4);
-		byteBuffer.order(ByteOrder.nativeOrder());
-		//allocates the memory from the byte buffer
-		vertexBuffer = byteBuffer.asFloatBuffer();
-		//fill the vertexBuffer with the vertices
-		vertexBuffer.put(verticies);
-		//set the cursor position to the beginning of the buffer
-		vertexBuffer.position(0);
+		if(GameActivity.useOpenGL) {
+			// allocate 4 bytes for the floats
+			ByteBuffer byteBuffer = ByteBuffer.allocateDirect(verticies.length * 4);
+			byteBuffer.order(ByteOrder.nativeOrder());
+			//allocates the memory from the byte buffer
+			vertexBuffer = byteBuffer.asFloatBuffer();
+			//fill the vertexBuffer with the vertices
+			vertexBuffer.put(verticies);
+			//set the cursor position to the beginning of the buffer
+			vertexBuffer.position(0);
+		}
 	}
 	
 	public Square(int color) {
