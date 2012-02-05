@@ -3,7 +3,7 @@ package com.duckcult.game.engine.opengl;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import com.duckcult.runegame.subsystems.RenderingSystem;
+import com.duckcult.runegame.subsystems.ShapeRenderingSystem;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 
 import android.opengl.GLSurfaceView.Renderer;
@@ -14,11 +14,11 @@ public class GLRenderer implements Renderer {
 	public static final String TAG = GLRenderer.class.getSimpleName(); 
 	
 	private EntityManager em;
-	private RenderingSystem renderingSystem;
+	private ShapeRenderingSystem renderingSystem;
 	
 	public GLRenderer(EntityManager entityManager) {
 		em = entityManager;
-		renderingSystem = new RenderingSystem(entityManager);
+		renderingSystem = new ShapeRenderingSystem(entityManager);
 	}
 	
 	@Override

@@ -1,11 +1,12 @@
 package com.duckcult.game.engine;
 
 import com.duckcult.game.engine.opengl.DuckGLSurfaceView;
+import com.duckcult.game.engine.opengl.primitives.Square;
 import com.duckcult.runegame.components.Drag;
 import com.duckcult.runegame.components.Position;
-import com.duckcult.runegame.components.SquareRenderer;
+import com.duckcult.runegame.components.RenderableComponent;
 import com.duckcult.runegame.subsystems.MovementSystem;
-import com.duckcult.runegame.subsystems.RenderingSystem;
+import com.duckcult.runegame.subsystems.ShapeRenderingSystem;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 
 import android.graphics.Canvas;
@@ -57,7 +58,7 @@ public class GameThread extends Thread {
 	private MovementSystem movementSystem;
 	//note this is not actually the system that renders the visual that one lives in the relevant SurfaceView
 	//because of the nature of systems it doesn't actually matter that there are 2 of them
-	private RenderingSystem renderingSystem;
+	private ShapeRenderingSystem renderingSystem;
 	
 	/**
 	 * Constructor
@@ -132,7 +133,7 @@ public class GameThread extends Thread {
 	//start initializing stuff here
 		int entity = em.createEntity();
 		em.addComponent(entity, new Position());
-		em.addComponent(entity, new SquareRenderer());
+		em.addComponent(entity, new RenderableComponent(new Square()));
 		em.addComponent(entity, new Drag());
 	//end initializing stuff here
 	
@@ -219,7 +220,7 @@ public class GameThread extends Thread {
 	
 	private void initializeSystems() {
 		movementSystem = new MovementSystem(em);
-		renderingSystem = new RenderingSystem(em);
+		renderingSystem = new ShapeRenderingSystem(em);
 	}
 	
 	private void updateSystems (long lastFrameTime) {

@@ -4,7 +4,7 @@ import com.duckcult.game.R;
 import com.duckcult.game.model.AnimatedEntity;
 import com.duckcult.game.model.Droid;
 import com.duckcult.game.model.Explosion;
-import com.duckcult.runegame.subsystems.RenderingSystem;
+import com.duckcult.runegame.subsystems.ShapeRenderingSystem;
 import com.duckcult.runegame.subsystems.TouchSystem;
 import com.wikidot.entitysystems.rdbmswithcodeinsystems.EntityManager;
 
@@ -23,7 +23,7 @@ public class DuckCanvasSurfaceView extends SurfaceView implements Callback, Duck
 	private EntityManager em; 
 	private GameThread thread;
 	private TouchSystem touchSystem;
-	private RenderingSystem renderingSystem;
+	private ShapeRenderingSystem renderingSystem;
 	private String avgFPS;
 
 	public DuckCanvasSurfaceView(Context context, EntityManager em) {
@@ -84,7 +84,7 @@ public class DuckCanvasSurfaceView extends SurfaceView implements Callback, Duck
 	public void setEntityManager(EntityManager em){
 		this.em = em;
 		touchSystem = new TouchSystem(em);
-		renderingSystem = new RenderingSystem(em);
+		renderingSystem = new ShapeRenderingSystem(em);
 	}
 	
 	private void displayFPS(Canvas canvas, String fps){

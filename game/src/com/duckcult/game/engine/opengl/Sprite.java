@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 
 import com.duckcult.game.R;
+import com.duckcult.game.engine.opengl.primitives.Square;
 
 public class Sprite extends Square {
 	protected FloatBuffer textureBuffer;

@@ -1,4 +1,4 @@
-package com.duckcult.game.engine.opengl;
+package com.duckcult.game.engine.opengl.primitives;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -6,7 +6,10 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class Triangle {
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
+public class Triangle extends Shape{
 	private FloatBuffer vertexBuffer;
 	
 	private float verticies[] = {
@@ -30,7 +33,17 @@ public class Triangle {
 		vertexBuffer.position(0);
 	}
 	
-	public void draw(GL10 gl) {
+	public Triangle(int color) {
+		this();
+		this.setColor(color);
+	}
+	
+	public Triangle(float red, float green, float blue, float alpha) {
+		this();
+		this.setColor(red,green,blue,alpha);
+	}
+	
+	public void render(GL10 gl) {
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		
 		// set the colour for the triangle
@@ -44,6 +57,10 @@ public class Triangle {
 		
 		// Disable the client state before leaving
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-		
+	}
+	
+	//TODO figure out how the hell you draw a triangle in canvas mode
+	public void render(Canvas canvas) {
+		Paint paint = new Paint(getColor());
 	}
 }
