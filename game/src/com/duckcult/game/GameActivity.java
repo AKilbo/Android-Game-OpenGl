@@ -18,7 +18,7 @@ import android.view.WindowManager;
  * The central activity that starts the game.
  * Some improvement is needed here to handle restarts and screen orientation changes.
  * @author eharpste
- *
+ * @author akilbo
  */
 public class GameActivity extends Activity {
    
@@ -60,11 +60,13 @@ public class GameActivity extends Activity {
         Log.d(TAG, "View Added");
     }
     
+    //logging the destruction of the (canvas?)
     protected void onDestroy() {
     	Log.d(TAG,"Destroying...");
     	super.onDestroy();
     }
     
+    //logging that the program has stopped
     protected void onStop() {
     	Log.d(TAG,"Stopping...");
     	super.onStop();
